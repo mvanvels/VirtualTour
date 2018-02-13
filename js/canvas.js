@@ -78,25 +78,25 @@ class SimpleCanvas {
    *      shadowBlur : 3
    *   }
    */
-	setStrokeStyle(style) {
-		if (style === "defaults") {
-		  const lineGradient=this.ctx.createLinearGradient(0,0,170,0)
-    	lineGradient.addColorStop("0","#FFB300")
-    	lineGradient.addColorStop("1.0","#FFD164")
+  setStrokeStyle(style) {
+    if (style === "defaults") {
+      const lineGradient=this.ctx.createLinearGradient(0,0,170,0)
+      lineGradient.addColorStop("0","#FFB300")
+      lineGradient.addColorStop("1.0","#FFD164")
 
-			this.ctx.lineWidth = 3
-			this.ctx.strokeStyle = lineGradient
-			this.ctx.fillStyle = "rgba(0,0,255,0.2)"
+      this.ctx.lineWidth = 3
+      this.ctx.strokeStyle = lineGradient
+      this.ctx.fillStyle = "rgba(0,0,255,0.2)"
 
-			return
-		}
+      return
+    }
 
-		if (style.lineWidth) this.ctx.lineWidth = style.lineWidth
-		if (style.lineColor) this.ctx.strokeStyle = style.lineColor
-		if (style.fillColor) this.ctx.fillStyle = style.fillColor
+    if (style.lineWidth) this.ctx.lineWidth = style.lineWidth
+    if (style.lineColor) this.ctx.strokeStyle = style.lineColor
+    if (style.fillColor) this.ctx.fillStyle = style.fillColor
     if (style.shadowColor) this.ctx.shadowColor= style.shadowColor
     if (style.shadowBlur) this.ctx.shadowBlur = style.shadowBlur
-	}
+  }
   /**
   * Draws a circle using canvas arc()
   * @param  {Number}  centerX  Middle x of circle
@@ -129,9 +129,9 @@ class SimpleCanvas {
    * @param  {Object}  points   Object[Array[x:value,y:value]...]; The arrays of the object must have 'x','y' as keys
    * @param  {Boolean} [isFilled] - false. Optional param to fill in shape
    */
-	drawPath(points, isFilled) {
-		isFilled = isFilled || false
-		this.ctx.beginPath()
+  drawPath(points, isFilled) {
+    isFilled = isFilled || false
+    this.ctx.beginPath()
     //move to the first index coordinates before drawing lines.
     //Do not use moveTo in the loop as a fill will not be honored
     this.ctx.moveTo(points[0]['x'], points[0]['y'])
@@ -142,19 +142,19 @@ class SimpleCanvas {
 
     this.ctx.closePath()
     this.ctx.stroke()
-		if (isFilled)	this.ctx.fill()
-	}
+    if (isFilled)	this.ctx.fill()
+  }
   /**
    * Gets the most roundabout center of shape. This naturally is not 100% accurate with polygons
    * @param  {Object} points [Object[Array[x:value,y:value]]...]; The arrays of the object must have 'x', 'y' as keys
    * @return {Array}        Returns an array of coordinates [x,y] representing center shape
    */
-	getCentroid(points) {
-		// use formula here: https://en.wikipedia.org/wiki/Centroid#Locating_the_centroid
+  getCentroid(points) {
+    // use formula here: https://en.wikipedia.org/wiki/Centroid#Locating_the_centroid
 
-		//makes life easier and parses points from it's kvp.
-		// this is the best workaround imo since some browsers don't support Object.keys()/values()
-		let coords = []
+    //makes life easier and parses points from it's kvp.
+    // this is the best workaround imo since some browsers don't support Object.keys()/values()
+    let coords = []
 
     for (coord of points) {
       coords.push([coord.x, coord.y])
@@ -163,5 +163,6 @@ class SimpleCanvas {
     return coords.reduce(function(x,y) {
       return [x[0] + y[0]/coords.length, x[1] + y[1]/coords.length]
     }, [0,0])
-	}
+  }
+	
 }
