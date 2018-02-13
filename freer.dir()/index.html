@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.tourbytouch.com/img/checkmark.ico">
+    <title> Admin Map Editor | SelectMe Services</title>
+
+    <!-- JS Frameworks -->
+    <script src="http://www.tourbytouch.com/js/jquery.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <!-- BOOSTRAP -->
+    <link rel="stylesheet" href="http://www.tourbytouch.com/bootstrap/css/bootstrap.min.css">
+    <script src="http://www.tourbytouch.com/bootstrap/js/bootstrap.min.js"></script>
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="css/map-master.css">
+    <link rel="stylesheet" href="../css/spacing.css"> <!-- Global CSS File (Relative to GitHub path) -->
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <img src="../images/logos/logo2.png" alt="">
+          </a>
+        </div>
+      </div>
+    </nav>
+    <main class="mx-3">
+      <div class="container-fluid pb-4">
+        <div class="row">
+          <div>
+            Select Map:
+            <div class="btn-group">
+              <button id="btn_changeMap" type="button" class="btn dropdown-toggle btn-custom-plain" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="select">
+                ---- <span class="caret"></span>
+              </button>
+              <ul id="list_maps" class="dropdown-menu">
+                <li><a id="btn_addMap" href="#">Add Map<i class="fas fa-plus float-right pt-1"></i></a></li>
+              </ul>
+            </div>
+          </div> <!-- END OF MAP SELECTION DROP DOWN BUTTON -->
+          <div class="form-group mt-2">
+            <label for="map-description">Map Description:</label>
+            <textarea id="map-description" class="form-control" spellcheck="true" maxlength="100" minlength="20" autocomplete="true"></textarea>
+          </div> <!-- END OF MAP DESCRIPTION -->
+          <hr>
+        </div>
+        <div id="map-wrapper" class="row">
+          <div class="topbar pr-2">
+            <button id="btn_areaCancel" type="button" name="button" class="btn btn-custom-plain mr-2"><i class="fas fa-times"></i></button>
+            <button id="btn_areaComplete" type="button" name="button" class="btn btn-custom-plain mr-2"><i class="fas fa-check"></i></button>
+            <div class="btn-group">
+              <button id="btn_addAreasMenu" type="button" class="btn btn-custom-plain dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add">
+                <i class="fas fa-plus"></i></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li title="Add New Map Area"><a href="#" id="btn_addArea">Area</a></li>
+                <li title="Add New Map Connection" class="disabled"><a href="#" id="btn_addConnection">Connection</a></li>
+              </ul>
+            </div>
+          </div> <!-- END OF MAP TOPBAR MENU DIV -->
+          <div class="sidebar float-left">
+            <ul>
+              <li title="Change Map Image" class="nav-link"><button id="btn_changeMapImage" type="button" class="btn btn-secondary"><i class="fas fa-map"></i></button></li>
+              <li title="Show All Areas" class="nav-link"><button id="btn_showhideAllAreas" type="button" class="btn btn-secondary" value="show"><i class="fas fa-eye"></i></button></li>
+              <li title="Clear All Areas" class="nav-link"><button id="btn_clearAllAreas" type="button" class="btn btn-secondary"><i class="fas fa-redo"></i></button></a></li>
+            </ul>
+          </div> <!-- END OF MAP SIDEBAR MENU DIV -->
+          <div id="map-container">
+            <canvas id="canvas" width="1000" height="500" style="position: absolute"></canvas>
+            <img id="map-image" src="" alt="" usemap="#map" >
+            <map id="map" name="map"></map>
+          </div> <!-- END OF MAP/MAP IMAGE CONTAINER DIV -->
+        </div>
+        <hr>
+        <div id="poi-wrapper" class="row">
+            <table class="mr-3">
+              <thead>
+                <tr>
+                  <th colspan="3">Points of Interest</th>
+                </tr>
+              </thead>
+              <tbody id="tbl_poi">
+              </tbody>
+            </table>
+        </div> <!-- END OF POINTS OF INTEREST TABLE DIV -->
+        <hr>
+        <button id="btn_publish" type="button" class="btn btn-primary" style="margin-left: 950px">Publish</button>
+      </div>
+    </main>
+     <!-- ELEMENTS NOT RELEVANT TO STYLING STANDARDS BELOW -->
+    <input id="btn_uploadMapTrigger" name="myFile" type="file" accept="image/*" style="display: none;">
+    <noscript>
+        Oops. Your browser has javascript disabled. Please enable javascript in order to use all administrative functionality properly.
+    </noscript>
+    <!-- JS Libraries -->
+    <script src="../js/canvas.js"></script> <!-- Global Class File relative to GitHub path -->
+    <script src="js/master.js" charset="utf-8"></script>
+  </body>
+</html>

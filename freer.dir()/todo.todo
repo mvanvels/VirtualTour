@@ -1,0 +1,39 @@
+
+  Configurations:
+    ☐ PHP -> mySQLi
+    ✔ Bootstrap -> 3 @done(2018-02-10 15:01) @project(Configurations)
+
+	Canvas:
+		☐ Add lineJoin styling for smoother edges
+		☐ Add lineCap (for connections) styling option
+
+  Map Editor:
+    ✔ Clear All areas button @done(2018-02-12 10:09) @project(Map Editor)
+    ☐ Add map (when map is added, current map image should be removed)
+    ☐ Tutorial
+
+    Areas:
+      ✔ implement @done(2018-02-10 15:02) @project(Map Editor / Areas)
+      ☐ Image/Video indicators on main table
+      ☐ Modal for editing points of interest and it's metadata
+      ✔ hoverable (click to show area on map) @done(2018-02-11 16:12) @project(Map Editor / Areas)
+      ✔ make script to get center of area @done(2018-02-11 18:11) @project(Map Editor / Areas)
+      ☐ Admin upload many pictures of area
+
+    Connections:
+
+    Upload:
+
+      Validations:
+        ☐ Map Description is not blank
+        ☐ Can areas share same name? (Mark says no to areas, maps can share same name)
+
+  PHP:
+    ☐ class setup
+    ☐ table/db set up
+
+  Misc TODO:
+    ☐ add <noscript>
+    ☐ test other clients
+
+  Bugs:

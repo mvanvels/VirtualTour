@@ -1,0 +1,232 @@
+/*
+  AUTHOR David Freer
+  Direct Questions -> soulshined@me.com
+  Date: 2/7/2018
+  Notes:
+    This document only supports ../map/index.html at this time
+
+    Regions are seperated by order of appearance. However, top level DOM element
+    selectors (nav, body, html, main, article) are listed in first region.
+
+  Excogitation:
+    Although bootstrap is used, most of their defaults are overrided with !important
+    because....bootstrap is gross. !important overrides are top-level as much as possible
+    to allow nested overrides below
+
+    Check boostrap inline styles (as in bootstrap classes i.e., mr-2 etc) before adding styles here
+
+    Boostrap no longer supports glyphs, fontawsome was elected its replacement,
+    therefore, some positioning and pixel alignments to DOM elements may reflect this change.
+    Plan accordingly if fontawesome is not supported in the future.
+      Inline comment of "FA" will be annotated next to anything that was altered explicitly
+      to satisfy a fontawesome icon
+ */
+
+:root {
+  /* USAGE -> --selector-identifier-element-elementchild/name */
+  --color-bgs-buttons-custom-plain: rgba(34,42,34, 0.85);
+  --color-bgs-headers-dark: #222;
+  --color-bgs-divs: whitesmoke;
+  --color-bgs-divs-dark: gainsboro;
+
+  --color-fonts-links-hover: #ffb200;
+  --color-fonts-links-active: #49A486;
+  --color-fonts-links-normal: rgba(34,42,34, 0.85);
+  --color-fonts-buttons-custom-plain: goldenrod;
+
+  --color-inputs-focus: #ffb200;
+}
+
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION TOP-LEVEL SELECTORS START-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+html {
+  font-size: 100%;
+}
+body {
+  background-color: var(--color-bgs-divs);
+  padding-top: 80px; /* To satisfy sticky header */
+  font-family: 'Roboto', 'Open Sans', sans-sans-serif;
+  font-size: 1rem;
+}
+noscript {
+  position: absolute;
+  top: -3px; left: 25%;
+  width: 50%; min-width: 300px;
+  padding: 10px;
+  font-size: 0.75rem;
+  color: white;
+  background-color: tomato;
+  text-align: center;
+	border-radius: 4px;
+  z-index: 999999 !important;
+}
+main {
+  width: 1050px;
+}
+hr {
+  border-top: 1px solid var(--color-bgs-divs-dark);
+}
+textarea:focus {
+  border-color: var(--color-inputs-focus) !important;
+}
+.navbar-brand {
+  padding: 0;
+  height: inherit;
+}
+.navbar-brand img {
+  transform: scale(0.65);
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**----END OF TOP-LEVEL SELECTORS REGION---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION GLOBAL STYLINGS START-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+.btn-custom-plain {
+  background-color: var(--color-bgs-buttons-custom-plain);
+  color: white;
+  font-size: 0.9rem !important;
+}
+.btn-custom-plain:hover,
+.btn-custom-plain:active,
+.btn-custom-plain:focus {
+  background-color: #222;
+  color: var(--color-fonts-buttons-custom-plain);
+}
+/* class for adding a grey container */
+.topbar {
+  background-color: var(--color-bgs-divs-dark);
+  width: 100%; height: 35px;
+  font-size: 1.2rem;
+  border: 1px solid lightgray;
+  box-shadow: 1px 2px rgba(200,200,200,1);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.topbar .btn-custom-plain {
+  padding: 1.5px 6px;
+  font-size: 0.8rem !important;
+}
+.topbar .dropdown-menu {
+  left: -100px;
+  text-align: right;
+  min-width: 130px;
+}
+.list-inline {
+  list-style: none !important;
+  display: inline !important;
+}
+/* OVERRIDING BOOTSTRAP NAV-LINK DEFAULTS */
+.nav-link {
+  color: white !important;
+}
+.nav-link.active {
+  color: var(--color-fonts-links-active) !important;
+  background-color: inherit !important;
+}
+.nav-link:not(.active):hover {
+  color: var(--color-fonts-links-hover) !important;
+}
+.nav-link > a,
+.nav-link > button {
+  color: var(--color-fonts-links-normal);
+}
+.nav-link > a:hover,
+.nav-link > button:hover {
+  color: var(--color-fonts-links-hover) !important;
+}
+.nav-link > button {
+  padding: 2px;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------END GLOBAL STYLINGS REGION-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+/* Map Description input textarea */
+#map-description {
+  width: 250px; height: 50px;
+  font-size: 0.8rem;
+  resize: none;
+}
+
+/* MAP RELATED STYLES */
+#map-wrapper {
+  width: 1000px; height: 500px;
+  margin-bottom: 3.5rem;
+}
+#map-wrapper .topbar {
+  width: 1035px;
+}
+#map-wrapper .sidebar {
+  width: 35px; height: 500px;
+  background-color: var(--color-bgs-divs-dark);
+  font-size: 1.2rem;
+  border: 1px solid lightgray;
+  box-shadow: 2px 1px rgba(200,200,200,1);
+  z-index: 1000;
+}
+#map-wrapper .sidebar ul {
+  padding: 0 6px 10px;
+  list-style: none;
+}
+#map-wrapper .sidebar li:not(:last-of-type) {
+  padding: 6px 0;
+}
+#map-container {
+  width: inherit; height: inherit;
+  border: 2px dotted var(--color-bgs-divs-dark);
+  background-image: url('../../images/icons/map-placeholder.png');
+  background-position: center;
+  background-size:auto;
+  background-repeat: no-repeat;
+  margin-left: 36px;
+}
+#map-image {
+  max-height: 497px;
+  max-width: 997px;
+}
+/* Points of Interest Table Styles */
+#poi-wrapper {
+  width: 1000px;
+}
+#poi-wrapper table{
+  width: 500px;
+}
+#poi-wrapper thead {
+  border-bottom: 2px solid darkgray;
+}
+#poi-wrapper tbody {
+  font-size: 0.89rem;
+}
+#poi-wrapper tbody tr:hover {
+  background-color: rgba(0,0,0,0.2);
+}
+/* individual table data styles */
+#poi-wrapper tbody tr:nth-of-type(odd) {
+  background-color: var(--color-bgs-divs-dark);
+}
+#poi-wrapper tbody td:first-of-type {
+  width: 45px;
+  text-align: center;
+}
+#poi-wrapper tbody td:nth-child(2) {
+  width: 300px;
+  padding-left: 8px;
+}
+#poi-wrapper tbody td:last-of-type {
+  color: darkgray;
+  display: flex;
+  justify-content: flex-end;
+}
+#poi-wrapper .btn-secondary {
+  background: inherit;
+  background-color: inherit;
+  height: 25px; width: 25px;
+  padding: 0;
+}
+#poi-wrapper .btn-secondary:focus {
+  outline: none;
+}
