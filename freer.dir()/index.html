@@ -16,7 +16,7 @@
     <!-- CSS Dependencies -->
     <link rel="stylesheet" href="css/map-master.css">
     <link rel="stylesheet" href="../css/spacing.css"> <!-- Global CSS File (Relative to GitHub path) -->
-
+    <link rel="stylesheet" href="css/modal.css">
   </head>
 
   <body>
@@ -92,13 +92,38 @@
         <button id="btn_publish" type="button" class="btn btn-primary" style="margin-left: 950px">Publish</button>
       </div>
     </main>
-     <!-- ELEMENTS NOT RELEVANT TO STYLING STANDARDS BELOW -->
+    <!-- HIDDEN ELEMENTS -->
+      <!-- POI modal -->
+    <div id="poiModal" class="poi-modal" data-poi-is-set="false">
+        <div class="poi-modal-content">
+          <span class="poi-close-button">&times;</span>
+          <div class="poi-modal-body">
+						<input type="text" placeholder="Enter Point of Interest Title">
+						<div>
+							<h5>Images: <span class="media-count">0/5</span></h5>
+							<img src="../images/icons/media-upload.png">
+							</img>
+						</div>
+						<div>
+							<h5>Video: <span class="media-count">0/1</span></h5>
+								<img src="../images/icons/media-upload.png">
+								</img>
+						</div>
+					</div>
+					<div class="poi-modal-footer">
+						<button id="btn_poiModalSave">SAVE</button>
+						<button id="btn_poiModalClase">CANCEL</button>
+						<button >DELETE</button>
+					</div>
+        </div>
+    </div>
+    <!-- ELEMENTS NOT RELEVANT TO STYLING STANDARDS BELOW -->
     <input id="btn_uploadMapTrigger" name="myFile" type="file" accept="image/*" style="display: none;">
     <noscript>
         Oops. Your browser has javascript disabled. Please enable javascript in order to use all administrative functionality properly.
     </noscript>
     <!-- JS Libraries -->
     <script src="../js/canvas.js"></script> <!-- Global Class File relative to GitHub path -->
-    <script src="js/master.js" charset="utf-8"></script>
+    <script src="js/master.js" type="module" charset="utf-8"></script>
   </body>
 </html>
