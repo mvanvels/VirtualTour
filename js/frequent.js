@@ -77,6 +77,31 @@ const Frequent = {};
         if (strng.match(regx)) result = true;
         return result;
       }
+      /**
+       * Validates if a string contains a matched pattern
+       *
+       * Both Regex Literal and constructor patterns.
+       *
+       * Regex literals (/pattern/) are interpreted literally,
+       * constructor "pattern" can interpret variables
+       *
+       * @param  {String} strng       String to validate
+       * @param  {String|RegExp} pattern     See notes above
+       * @param  {String} [attrs="i"] A list of RegExp parameters to set
+       * @return {Boolean}             true/false based on match
+       */
+      Frequent.Regex.containsMatch = function(strng, pattern, attrs = "i") {
+        if (!(pattern instanceof RegExp) && typeof pattern !== "string" ||
+            (typeof pattern === "string" && pattern.startsWith("/"))) {
+          throw "Regex pattern must be a RegExp literal pattern or constructor string pattern without leading and trailing forward slashes";
+        }
+        let result = false;
+
+        let regx = new RegExp(pattern, attrs);
+
+        if (strng.match(regx)) result = true;
+        return result;
+      }
     })();
     //REGEX REGION END
 

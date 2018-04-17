@@ -16,8 +16,8 @@ import { FRegex } from './frequent.js';
  * is reused for performance. It is removed from DOM since we share a plain Dialog
  * with Input dialog. This limits potential input errors.
  *
- * This modal uses promises for callbacks to ensure synchronous behavior, but the modal itself does NOT
- * script block
+ * This modal uses promises for callbacks to ensure synchronous behavior, however
+ * you can use async/await promise functionality to ensure script blocking synchronous behavior.
  *
  * Demonstration of using SimpleModal:
  *
@@ -66,7 +66,7 @@ import { FRegex } from './frequent.js';
 export class SimpleModal extends DOMElements {
   constructor() {
     super();
-
+    this.buttons = [];
     this.defaultButtonTitle = "OK";
     //button action enum
     this.MODAL_RESULT = Object.freeze({
@@ -184,7 +184,7 @@ export class SimpleModal extends DOMElements {
   inputDialog(msg, inputType = this.INPUT_TYPE.STRING, isRequired = false) {
     clearTimeout(this.timeout);
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.addModalToDOM();
       //add input specific dom elements
       let msgDiv = super.createDOMElement("DIV");
@@ -207,10 +207,10 @@ export class SimpleModal extends DOMElements {
 
       this.modal.onclick = (event) => {
         if (event.target === this.modal) {
-          this.hideModal(() => { resolve(-1); }); //modal background clicked
+          this.hideModal(() => { resolve({MODAL_RESULT : -1, "input" : undefined}); }); //modal background clicked
         }
         if (event.target === this.closeButton) {
-          this.hideModal(() => { resolve(0); }); //modal exit button clicked
+          this.hideModal(() => { resolve({MODAL_RESULT : 0, "input" : undefined}); }); //modal exit button clicked
         }
         if (event.target.tagName === "BUTTON" &&
         event.target.parentElement.classList.contains("sm-modal-footer")) {
@@ -236,8 +236,10 @@ export class SimpleModal extends DOMElements {
               setTimeout(() =>{this.modalContent.classList.remove("shake")}, 820);
             }
             else {
-              this.hideModal(()=> { resolve(input); });
+              this.hideModal(()=> { resolve({MODAL_RESULT : 1, "input" : input}); });
             }
+          } else {
+            this.hideModal(()=> { resolve({MODAL_RESULT : [...event.target.parentElement.children].indexOf(event.target) + 1, "input" : undefined});});
           }
         }
       }
@@ -318,7 +320,7 @@ export class SimpleModal extends DOMElements {
       justify-content: flex-start;
       width: 85%;
       margin: 0 auto;
-      padding: 8px 10px;
+      padding: 8px 0px;
       border-top: 1px solid lightgray;
     }
     [data-alert-type="input"] .sm-modal-footer {

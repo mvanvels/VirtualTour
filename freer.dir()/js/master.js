@@ -121,30 +121,44 @@ $(document).ready(function(e) {
    * EVENT LISTENER REGION: Register all webpage event listeners here.
    * Also ensures the priming value of mapEditor.isEditing = false
    */
-  //completion of file upload dialog
+  //completion of file upload dialog. this assumes browser support of FileReader
   elems.buttons.uploadMapImageTrigger.on("change", ()=> {
     uploadImageDialog((result)=> {
       if (result) {
-        elems.map.image.attr('src', result.reader);
-        elems.map.image.attr('alt', result.file.name);
+        let img = new Image();
+        img.src = result.reader;
+        img.onload = function() {
+          let isSupportedExtn = FRegex.containsMatch(result.file.type,/^image\/png$|^image\/jpg$|^image\/jpeg$/);
+          if (this.height !== 500 || this.width !== 1000 || !isSupportedExtn) {
+            modal.display("The image size is invalid. Please use an image size of 1000 x 500\n\nSupported file types are .jpeg, .jpg, .png");
+            img = null;
+          } else {
+            elems.map.image.attr('src', result.reader);
+            elems.map.image.attr('alt', result.file.name);
 
-        mapEditor.reset();
-        refreshMapAreas();
+            mapEditor.reset();
+            refreshMapAreas();
+            img = null;
+          }
+        }
+        img.onerror = ()=> {
+          img = null;
+        };
       }
     })
   });
   //add map button in the select maps drop down
   elems.buttons.addMap.on("click", ()=> {
     modal.inputDialog("Please enter a title for the Map", modal.INPUT_TYPE.STRING, true)
-      .then( input => {
-        if (input !== modal.MODAL_RESULT.CANCEL && input !== modal.MODAL_RESULT.EXIT) {
+      .then( result => {
+        if (result.MODAL_RESULT === modal.MODAL_RESULT.OK) {
           if (mapEditor.mapCount > 0) {
             if (mapEditor.mapCount === 1) $('<li role="separator" class="divider"></li>').insertBefore($("#list_maps li:last-of-type"));
             $('<li><a href="#">' + elems.buttons.changeMap.val() + '</a></li>').insertBefore("#list_maps .divider");
           }
 
-          elems.buttons.changeMap.html(input + ' <span class="caret">');
-          elems.buttons.changeMap.val(input);
+          elems.buttons.changeMap.html(result.input + ' <span class="caret">');
+          elems.buttons.changeMap.val(result.input);
           mapEditor.mapCount++;
           refreshButtonStates();
         }
@@ -195,7 +209,6 @@ $(document).ready(function(e) {
       if (mapEditor.coords.length > 2) {
         //repeat 1st xy coord to close the polygon
         mapEditor.coords.push(mapEditor.coords[0]);
-        elems.modals.poi.attr("data-poi-is-set", "false");
         elems.modals.poi.addClass("poi-show-modal");
       }
   });
@@ -225,21 +238,30 @@ $(document).ready(function(e) {
 
         mapEditor.isEditingMap = false;
 
+        resetPOIModal();
         refreshMapAreas();
-
-        elems.modals.poi.removeClass("poi-show-modal");
-        poiInput.value = "";
-        // TODO: cleanse modal content from previous entry (should create own method)
       }
     } else {
       modal.display("The title is a required field and must be alphanumeric only").then(() => {poiInput.focus();} );
     }
   });
-  $("#btn_poiModalClase").on("click", ()=> {
-    elems.modals.poi.removeClass("poi-show-modal");
-    $("#poiModal input")[0].value = "";
-    // TODO: cleanse modal content from previous entry (should create own method)
+  $("#btn_poiModalClose").on("click", resetPOIModal);
+  $("#poiModal .poi-images img").on("click", (e)=> {
+    if(!e.nextSibling) {
+      console.log("last sibling");
+      if ($("#poiModal .poi-images img").length < 5) {
+        let clone = $(e.target).clone();
+        clone.insertBefore(e.target);
+      }
+    }
   });
+  function resetPOIModal() {
+    elems.modals.poi.removeClass("poi-show-modal");
+    elems.modals.poi.attr("data-poi-is-set", "false");
+    $("#poiModal input")[0].value = "";
+    // TODO: cleanse images and media
+    $("#poiModal img").src = "";
+  }
   // show hide all created areas
   elems.buttons.showhideAllAreas.on("click", ()=> {
     switch (elems.buttons.showhideAllAreas.val()) {
@@ -269,7 +291,7 @@ $(document).ready(function(e) {
   });
   // clear all areas from drawing and mapEditor.areas array
   elems.buttons.clearAllAreas.on("click", ()=> {
-    modal.display("Do you really want to clear all your map data?")
+    modal.display("Clear all map data?")
       .then( result => {
         if (result === modal.MODAL_RESULT.OK)
           mapEditor.reset();
@@ -354,7 +376,6 @@ $(document).ready(function(e) {
           '</tr>';
       elems.tables.poi.append(tblRow);
     }
-    // BUG: fixed potential memory leak
     $("#tbl_poi tr").on("mouseenter", function() {
       let row = $(this).closest('tr').index();
       if (!mapEditor.isEditingMap) {

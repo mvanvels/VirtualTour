@@ -94,17 +94,16 @@
     </main>
     <!-- HIDDEN ELEMENTS -->
       <!-- POI modal -->
-    <div id="poiModal" class="poi-modal" data-poi-is-set="false">
+    <div id="poiModal" class="poi-modal poi-show-modal" data-poi-is-set="false">
         <div class="poi-modal-content">
-          <span class="poi-close-button">&times;</span>
           <div class="poi-modal-body">
 						<input type="text" placeholder="Enter Point of Interest Title">
-						<div>
+						<div class="poi-images">
 							<h5>Images: <span class="media-count">0/5</span></h5>
 							<img src="../images/icons/media-upload.png">
 							</img>
 						</div>
-						<div>
+						<div class="poi-videos">
 							<h5>Video: <span class="media-count">0/1</span></h5>
 								<img src="../images/icons/media-upload.png">
 								</img>
@@ -112,7 +111,7 @@
 					</div>
 					<div class="poi-modal-footer">
 						<button id="btn_poiModalSave">SAVE</button>
-						<button id="btn_poiModalClase">CANCEL</button>
+						<button id="btn_poiModalClose">CANCEL</button>
 						<button >DELETE</button>
 					</div>
         </div>
