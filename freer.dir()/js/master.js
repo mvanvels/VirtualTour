@@ -59,7 +59,7 @@ $(document).ready(function(e) {
       addMap : $("#btn_addMap"),
       changeMap : $("#btn_changeMap"),
       changeMapImage : $("#btn_changeMapImage"),
-      uploadMapImageTrigger :  $("#btn_uploadMapTrigger")
+      uploadMedia :  $("#btn_uploadMediaTrigger")
     },
     map : {
       wrapper : $("#map-wrapper"),
@@ -121,32 +121,7 @@ $(document).ready(function(e) {
    * EVENT LISTENER REGION: Register all webpage event listeners here.
    * Also ensures the priming value of mapEditor.isEditing = false
    */
-  //completion of file upload dialog. this assumes browser support of FileReader
-  elems.buttons.uploadMapImageTrigger.on("change", ()=> {
-    uploadImageDialog((result)=> {
-      if (result) {
-        let img = new Image();
-        img.src = result.reader;
-        img.onload = function() {
-          let isSupportedExtn = FRegex.containsMatch(result.file.type,/^image\/png$|^image\/jpg$|^image\/jpeg$/);
-          if (this.height !== 500 || this.width !== 1000 || !isSupportedExtn) {
-            modal.display("The image size is invalid. Please use an image size of 1000 x 500\n\nSupported file types are .jpeg, .jpg, .png");
-            img = null;
-          } else {
-            elems.map.image.attr('src', result.reader);
-            elems.map.image.attr('alt', result.file.name);
 
-            mapEditor.reset();
-            refreshMapAreas();
-            img = null;
-          }
-        }
-        img.onerror = ()=> {
-          img = null;
-        };
-      }
-    })
-  });
   //add map button in the select maps drop down
   elems.buttons.addMap.on("click", ()=> {
     modal.inputDialog("Please enter a title for the Map", modal.INPUT_TYPE.STRING, true)
@@ -165,9 +140,32 @@ $(document).ready(function(e) {
       });
   });
   //change map image button to upload new image file
+  //this event handler resets all map coordinates and metadata.
   elems.buttons.changeMapImage.on("click", ()=> {
-    elems.buttons.uploadMapImageTrigger.trigger("click");
-  })
+    uploadImageDialog((result)=> {
+      if (result) {
+        let img = new Image();
+        img.src = result.reader;
+        img.onload = function() {
+          let isSupportedExtn = FRegex.containsMatch(result.file.type,/^image\/png$|^image\/jpg$|^image\/jpeg$/); //this input is shared across the page, so regex is necessary here
+          if (this.naturalHeight !== 500 || this.naturalWidth !== 1000 || !isSupportedExtn) {
+            modal.display("The image is invalid. Please use an image size of 1000 x 500\n\nSupported file types are .jpeg, .jpg, .png");
+            img = null;
+          } else {
+            elems.map.image.attr('src', result.reader);
+            elems.map.image.attr('alt', result.file.name);
+
+            mapEditor.reset();
+            refreshMapAreas();
+            img = null;
+          }
+        }
+        img.onerror = ()=> {
+          img = null;
+        };
+      }
+    });
+  });
   //add new area button selected
   elems.buttons.addArea.area.on("click", ()=> {
     mapEditor.isEditingMap = true;
@@ -212,7 +210,6 @@ $(document).ready(function(e) {
         elems.modals.poi.addClass("poi-show-modal");
       }
   });
-  // // NOTE: ENDED HERE
   $("#btn_poiModalSave").on("click", ()=> {
     let poiInput = $("#poiModal input")[0];
 
@@ -246,22 +243,33 @@ $(document).ready(function(e) {
     }
   });
   $("#btn_poiModalClose").on("click", resetPOIModal);
-  $("#poiModal .poi-images img").on("click", (e)=> {
-    if(!e.nextSibling) {
-      console.log("last sibling");
-      if ($("#poiModal .poi-images img").length < 5) {
-        let clone = $(e.target).clone();
-        clone.insertBefore(e.target);
+  $("#poiModal .poi-images").on("click", function(e) {
+      if (e.target.tagName === "IMG") {
+        uploadImageDialog((result)=>{
+          if (result) {
+            let img = new Image();
+            img.src = result.reader;
+            img.onload = ()=> {
+              img.setAttribute("alt", result.file.name);
+              let isSupportedExtn = FRegex.containsMatch(result.file.type,/^image\/gif$|^image\/png$|^image\/jpg$|^image\/jpeg$/); //this input is shared across the page, so regex is necessary here
+              if (!isSupportedExtn) {
+                modal.display("Invalid image type. The current supported extensions are : gif, png, jpg, jpeg");
+                return;
+              }
+
+              if (!e.target.nextElementSibling && $("#poiModal .poi-images img").length < 5) {
+                  $(img).insertBefore(e.target);
+              } else {
+                e.target.replaceWith(img);
+              }
+            };
+            img.onerror = ()=> {
+              img = null;
+            };
+          }
+        });
       }
-    }
   });
-  function resetPOIModal() {
-    elems.modals.poi.removeClass("poi-show-modal");
-    elems.modals.poi.attr("data-poi-is-set", "false");
-    $("#poiModal input")[0].value = "";
-    // TODO: cleanse images and media
-    $("#poiModal img").src = "";
-  }
   // show hide all created areas
   elems.buttons.showhideAllAreas.on("click", ()=> {
     switch (elems.buttons.showhideAllAreas.val()) {
@@ -394,24 +402,58 @@ $(document).ready(function(e) {
     })
   }
   /**
+   * Sanatizes the points of interest data.
+   * The data-poi-is-set flag is always set to false here, so you only need to
+   * set it to true when appropriate
+   */
+  function resetPOIModal() {
+    elems.modals.poi.removeClass("poi-show-modal");
+    elems.modals.poi.attr("data-poi-is-set", "false");
+    $("#poiModal input")[0].value = "";
+    // TODO: cleanse images and media
+    $("#poiModal .poi-images img:not(:last)").remove();
+  }
+  /**
    * Upload Image Dialog; as of now, this queries all selectors with input type due to only
    * having one in DOM
    * @param  {Function} callback callback function to be executed after completion
    * @return {Object}            undefined if no file found, otherwise returns { reader: result only, file: file }
    */
   function uploadImageDialog(callback) {
-    let file    = document.querySelector('input[type=file]').files[0];
-    let reader  = new FileReader();
-
-    reader.addEventListener("load", () => {
-      callback( { reader : reader.result, file : file } );
-    }, false);
-
-    if (file) {
-      reader.readAsDataURL(file);
-    } else {
-      callback(undefined);
-    }
+      elems.buttons.uploadMedia.trigger("click");
+      let trigger = document.getElementById("btn_uploadMediaTrigger");
+      trigger.onchange = function() {
+        let files = trigger.files;
+        if (files && files.length > 0) {
+          const targetFile = files[0];
+          try {
+            const objectURL = window.URL.createObjectURL(targetFile);
+            callback({reader: objectURL, file : targetFile});
+            setTimeout(function() {
+              try {
+                window.URL.revokeObjectURL(objectURL); //deallocate from memory
+              } catch (e) {
+                console.log(e);
+              }
+            }, 50);
+          }
+          catch(e) {
+            try {
+              const fileReader = new FileReader(); // fallback if createObjectURL is not supported
+              fileReader.onload = () => {
+                callback({reader: fileReader.result, file : files[0]});
+              };
+              fileReader.readAsDataURL(files[0]);
+            }
+            catch(e) {
+              console.error(`File Upload not supported: ${e}`);
+              callback(undefined);
+            }
+          }
+        } else {
+          callback(undefined);
+        }
+      };
   }
   /**
    * Get's current mouse position, relative to canvas offset, scroll offest and page offset,

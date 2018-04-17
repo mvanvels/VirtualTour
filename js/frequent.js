@@ -95,11 +95,10 @@ const Frequent = {};
             (typeof pattern === "string" && pattern.startsWith("/"))) {
           throw "Regex pattern must be a RegExp literal pattern or constructor string pattern without leading and trailing forward slashes";
         }
-        let result = false;
 
-        let regx = new RegExp(pattern, attrs);
-
+        let result = false, regx = new RegExp(pattern, attrs);
         if (strng.match(regx)) result = true;
+        
         return result;
       }
     })();

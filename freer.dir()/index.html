@@ -47,6 +47,10 @@
             <label for="map-description">Map Description:</label>
             <textarea id="map-description" class="form-control" spellcheck="true" maxlength="100" minlength="20" autocomplete="true"></textarea>
           </div> <!-- END OF MAP DESCRIPTION -->
+          <div class="mapActions" style="float:right; margin-top: -40px;">
+            <button id="btn_save" type="button" class="btn btn-secondary">Save Draft</button>
+            <button id="btn_publish" type="button" class="btn btn-primary">Publish</button>
+          </div>
           <hr>
         </div>
         <div id="map-wrapper" class="row">
@@ -89,7 +93,6 @@
             </table>
         </div> <!-- END OF POINTS OF INTEREST TABLE DIV -->
         <hr>
-        <button id="btn_publish" type="button" class="btn btn-primary" style="margin-left: 950px">Publish</button>
       </div>
     </main>
     <!-- HIDDEN ELEMENTS -->
@@ -117,7 +120,7 @@
         </div>
     </div>
     <!-- ELEMENTS NOT RELEVANT TO STYLING STANDARDS BELOW -->
-    <input id="btn_uploadMapTrigger" name="myFile" type="file" accept="image/*" style="display: none;">
+    <input id="btn_uploadMediaTrigger" name="myFile" type="file" accept="image/*" style="display: none;">
     <noscript>
         Oops. Your browser has javascript disabled. Please enable javascript in order to use all administrative functionality properly.
     </noscript>
