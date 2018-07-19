@@ -2,6 +2,8 @@
   AUTHOR David Freer
   Direct Questions -> soulshined@me.com
   Date: 4/11/2018
+  Notes: 
+    Please give credit or don't remove author block
 */
 
 /**
@@ -91,15 +93,15 @@ const Frequent = {};
        * @return {Boolean}             true/false based on match
        */
       Frequent.Regex.containsMatch = function(strng, pattern, attrs = "i") {
+        if (strng === undefined) throw "First argument can't be undefined";
         if (!(pattern instanceof RegExp) && typeof pattern !== "string" ||
             (typeof pattern === "string" && pattern.startsWith("/"))) {
           throw "Regex pattern must be a RegExp literal pattern or constructor string pattern without leading and trailing forward slashes";
         }
 
-        let result = false, regx = new RegExp(pattern, attrs);
-        if (strng.match(regx)) result = true;
+        let regx = new RegExp(pattern, attrs);
         
-        return result;
+        return strng.match(regx);
       }
     })();
     //REGEX REGION END
@@ -463,6 +465,14 @@ const Frequent = {};
 
         return mapped;
     };
+
+    Frequent.titleCase = function(str) {
+        if (typeof str !== "string") throw "1st parameter expecting string";
+        
+        str = Frequent.map(str.toLowerCase().split(' '), e => e.charAt(0).toUpperCase() + e.slice(1));
+
+        return str.join(' ');
+    }
 })();
 
 //exports
