@@ -68,6 +68,7 @@ export class SimpleModal extends DOMElements {
     super();
     this.buttons = [];
     this.defaultButtonTitle = "OK";
+    this._maxLength = undefined;
     //button action enum
     this.MODAL_RESULT = Object.freeze({
       CANCEL  : -1, //the background or otherwise was clicked
@@ -83,7 +84,15 @@ export class SimpleModal extends DOMElements {
    * @param  {String} title text to be displayed on button1
    */
   set defaultButtonTitle(title) {
-    this.defaultBtnTitle = title;
+    this._defaultBtnTitle = title;
+  }
+  /**
+   * Sets the max length allowed for input text
+   * @param {Number} len number to validate length of text
+   */
+  set maxLength(len) {
+    if (typeof len !== 'number') throw Error("Paramter expecting number");
+    this._maxLength = parseInt(len);
   }
   /**
    * Generates the necessary HTML to add the modal to the DOM.
@@ -96,18 +105,20 @@ export class SimpleModal extends DOMElements {
    * This method relies on the super class to add the elements to the DOM
    */
   addModalToDOM() {
-    let modalDiv = super.createDOMElement("DIV",{id : "sm-modal-01", classNames : ["sm-modal"]});
-    let modalContentDiv = super.createDOMElement("DIV",{classNames:["sm-modal-content"]});
-    let modalFooterDiv = super.createDOMElement("DIV", {classNames: ["sm-modal-footer"]});
+    if (!SimpleModal.isActiveModal()) {
+      let modalDiv = super.createDOMElement("DIV",{id : "sm-modal-01", classNames : ["sm-modal"]});
+      let modalContentDiv = super.createDOMElement("DIV",{classNames:["sm-modal-content"]});
+      let modalFooterDiv = super.createDOMElement("DIV", {classNames: ["sm-modal-footer"]});
 
-    modalFooterDiv.appendDOMElement("BUTTON", {text: this.defaultBtnTitle});
-    modalContentDiv.appendDOMElement("SPAN", {classNames : ["sm-close-button"], text: "\u00D7"});
-    modalContentDiv.appendDOMElement("DIV", {classNames: ["sm-modal-body"]});
-    modalContentDiv.appendChild(modalFooterDiv);
+      modalFooterDiv.appendDOMElement("BUTTON", {text: this._defaultBtnTitle});
+      modalContentDiv.appendDOMElement("SPAN", {classNames : ["sm-close-button"], text: "\u00D7"});
+      modalContentDiv.appendDOMElement("DIV", {classNames: ["sm-modal-body"]});
+      modalContentDiv.appendChild(modalFooterDiv);
 
-    modalDiv.appendChild(modalContentDiv);
+      modalDiv.appendChild(modalContentDiv);
 
-    document.body.appendChild(modalDiv);
+      document.body.appendChild(modalDiv);       
+    }     
 
     //now that they are added to the DOM we can reference them
     this.modal = document.getElementById("sm-modal-01");
@@ -152,7 +163,7 @@ export class SimpleModal extends DOMElements {
 
     return new Promise((resolve, reject) => {
       this.addModalToDOM();
-
+      this.modalContent.style.width = "24rem";
       let p = super.createDOMElement("P", {text: msg});
       this.modalBody.appendChild(p);
 
@@ -173,6 +184,25 @@ export class SimpleModal extends DOMElements {
     });
   }
   /**
+   * Displays a spinning loading circle, defined by CSS
+   *
+   * Only way to close this HUD is with hideModal()
+   * No events will be registerd
+   */
+  displayLoadingHUD() {
+    clearTimeout(this.timeout);
+    this.addModalToDOM();
+    this.modal.dataset.alertType = "loading";
+    this.modalContent.style.width = "8rem";
+
+
+    let loadingDiv = super.createDOMElement("DIV", {classNames : ['sm-loading-container']});
+    loadingDiv.appendDOMElement("DIV", {classNames : ['sm-loading-circle']})
+
+    this.modalBody.appendChild(loadingDiv);
+    this.modal.classList.add("sm-show-modal");
+  }
+  /**
    * Display an input box within the SimpleModal theme
    *
    * This method requires a inputType that is ripped from my Frequent.js library
@@ -186,6 +216,7 @@ export class SimpleModal extends DOMElements {
 
     return new Promise(resolve => {
       this.addModalToDOM();
+      this.modalContent.style.width = "24rem";
       //add input specific dom elements
       let msgDiv = super.createDOMElement("DIV");
       msgDiv.appendDOMElement("P", {text: msg, style: "font-size:0.85rem;color: grey"});
@@ -204,6 +235,17 @@ export class SimpleModal extends DOMElements {
 
       this.modal.classList.add("sm-show-modal");
       document.querySelector(".sm-modal-body input").focus();
+      
+      window.onkeydown = (event) => {
+        //handles when user presses enter and modal is active
+        if (!event.altKey && !event.ctrlKey && event.key === "Enter") {
+          let input = document.getElementById("sm-input").value.trim();
+
+          if (SimpleModal.isValidInput(input, inputType, isRequired, this._maxLength)) {
+            this.hideModal(()=> { resolve({ MODAL_RESULT : 1, "input" : input}); });
+          }
+        }
+      }
 
       this.modal.onclick = (event) => {
         if (event.target === this.modal) {
@@ -217,46 +259,30 @@ export class SimpleModal extends DOMElements {
           if ([...event.target.parentElement.children].indexOf(event.target) + 1 === 1) {
             //verify the first button was clicked (this will always be the "OK" default button, but the text may not say OK as it can be changed by user)
             let input = document.getElementById("sm-input").value.trim();
-            let isErr = false, errMsg = "Field can not be left blank";
-            let errDesc =  document.getElementById("sm-modal-err-desc");
 
-            errDesc.innerHTML = "";
-            //check if input is empty if the field is required
-            if (isRequired && input.length === 0 || isRequired && !input) isErr = true;
-            //check if it matches the desired data type
-            if (!FRegex.isRegexMatch(input, inputType)) {
-              isErr = true;
-              errMsg = "Input does not match requirements";
-            }
-
-            if (isErr) {
-              errDesc.innerHTML = errMsg;
-              this.modalContent.classList.add("shake");
-              document.getElementById("sm-input").focus();
-              setTimeout(() =>{this.modalContent.classList.remove("shake")}, 820);
-            }
-            else {
-              this.hideModal(()=> { resolve({MODAL_RESULT : 1, "input" : input}); });
+            if (SimpleModal.isValidInput(input, inputType, isRequired, this._maxLength)) {
+              this.hideModal(()=> { resolve({ MODAL_RESULT : 1, "input" : input}); });
             }
           } else {
-            this.hideModal(()=> { resolve({MODAL_RESULT : [...event.target.parentElement.children].indexOf(event.target) + 1, "input" : undefined});});
+            this.hideModal(()=> { resolve({ MODAL_RESULT : [...event.target.parentElement.children].indexOf(event.target) + 1, "input" : undefined} );});
           }
         }
       }
     });
+
   }
   /**
    * Performs animation to hide modal from view
-   * @param  {Function} callback SetTimeout to allow for animation to complete, callbacks when done
+   * @param  {Optional|Function} callback SetTimeout to allow for animation to complete, callbacks when done
    */
   hideModal(callback) {
     this.modal.classList.remove("sm-show-modal");
     this.buttons = [];
-    this.defaultBtnTitle = "OK";
+    this._defaultBtnTitle = "OK";
 
     this.timeout = setTimeout(()=> {
       SimpleModal.unloadModal();
-      callback();
+      if (typeof callback === "function") callback();
     },250);
   }
   /**
@@ -267,6 +293,50 @@ export class SimpleModal extends DOMElements {
     //need to remove eventlisteners if targeting IE 7/8/9 to prevent potential memory leaks if removing from DOM, otherwise need event listeners.
     let modal = document.getElementById("sm-modal-01");
     modal.parentNode.removeChild(modal);
+  }
+  /**
+   * Validates input dialog value
+   * @param  {INPUT_TYPE}  inputType  Type of input expected
+   * @param  {Boolean} isRequired Specifies if input is required to proceed
+   * @return {Boolean}             true/false
+   */
+  static isValidInput(input, inputType, isRequired, maxLength) {
+    let modalContent = document.querySelector(".sm-modal-content");
+    let isValid = true, errMsg = "Field can not be left blank";
+    let errDesc =  document.getElementById("sm-modal-err-desc");
+
+    errDesc.innerHTML = "";
+    //check if it matches the desired data type
+    if (!FRegex.isRegexMatch(input, inputType)) {
+      isValid = false;
+      errMsg = "Input does not match requirements expecting";
+    }
+    //check if input is empty if the field is required
+    if (isRequired && !input || isRequired && input.length === 0) isValid = false;
+    //check if length is honored
+    if (maxLength !== undefined && input.length > maxLength) {      
+      isValid = false;
+      errMsg = `Field can not exceed ${maxLength} characters`;
+    }
+
+    if (!isValid) {
+      errDesc.innerHTML = errMsg;
+      modalContent.classList.add("shake");
+      document.getElementById("sm-input").focus();
+      setTimeout(() =>{modalContent.classList.remove("shake")}, 820);
+    }
+
+    return isValid;
+  }
+  /**
+   * Identifies if a SimpleModal is already active on document
+   */
+  static isActiveModal() {
+    if (document.getElementById("sm-modal-01")) {
+      return true;
+    } else {
+      return false
+    }
   }
 }
 
@@ -326,6 +396,31 @@ export class SimpleModal extends DOMElements {
     [data-alert-type="input"] .sm-modal-footer {
       border: none;
     }
+    [data-alert-type="loading"] .sm-modal-footer {
+      display: none;
+    }
+    [data-alert-type="loading"] .sm-close-button {
+      display : none;
+    }
+    .sm-loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      width: 100%;
+      height: 110px;
+    }
+    .sm-loading-circle {
+      box-sizing: border-box;
+
+      width: 80px;
+      height: 80px;
+      border-radius: 100%;
+      border: 10px solid rgba(0, 0, 0, 0.2);
+      border-top-color: orange;
+      -webkit-animation: spin 1s infinite ease-in-out;
+              animation: spin 1s infinite ease-in-out;
+    }
     .sm-close-button {
       position: absolute;
       right: 10px;
@@ -374,6 +469,9 @@ export class SimpleModal extends DOMElements {
       20%, 80% { transform: translate3d(2px, 0, 0);   }
       30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
       40%, 60% { transform: translate3d(4px, 0, 0);  }
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
     }
   `);
 })();
