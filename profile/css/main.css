@@ -1,0 +1,298 @@
+/*
+  AUTHOR David Freer
+  Direct Questions -> soulshined@me.com
+  Date: 7/17/2018
+  Notes:
+		This document only supports profile/index.html at this time
+		
+		This stylesheet relies on a parent stylesheet (globals.css) for a few color variables & few global variables
+		
+		Elements are styled top-down (as in order of appearance of html markup) after global selectors/classes are styled
+ */
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION GLOBAL STYLES START-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+html, body, main {
+	box-sizing: border-box;
+	margin: 0;
+	font-family: var(--global-font-family), 'Trebuchet MS';
+	font-size: 1rem;
+	font-size: var(--global-font-size) !important;
+}
+.btn-format-neutral {
+	background-color: #A4afb8;
+	color: white;
+}
+.btn-format-danger {
+	color: white;
+	background-color: tomato;
+}
+.btn-format-primary {
+	color: white;
+	background-color: cornflowerblue;
+}
+.btn-format-success {
+	color: white;
+	background-color: lightseagreen;
+}
+.btn-format-dark {
+	color: white;
+	background-color: rgba(0,0,0,0.85);
+}
+.btn-format-none {
+	font-size: 1rem;
+	outline: none;
+	background-color: transparent;
+	border: none;
+}
+@keyframes fadein {
+	from { opacity: 0;}
+	to {opacity: 1;}
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION GLOBAL STYLES END -----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+header {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	height: 70px;
+	padding: 0 20px;
+	background: var(--color-bg-header);
+	color: white;
+}
+header nav li:hover,
+header nav li:active {
+	color: var(--color-font-links-hover);
+	cursor: pointer;
+}
+/* START OF ACTION-LIST */
+.action-list {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 55px;
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+.action-list > ul > li {
+	display: inline-flex;
+	align-items: center;
+	position: relative;
+	padding: 0 25px;
+	font-weight: bold;
+	font-size: 1.15rem;
+	text-transform: uppercase;
+	border-right: 1px solid lightgrey;
+	cursor: pointer;
+}
+.action-list > ul > li:after {
+	content: '‹';
+	margin: auto 5px;
+  font-size: 2rem;
+  transition: 200ms;
+  transform-origin:50% 50%;
+  transform: rotate(-90deg);
+}
+.action-list .action-list__dropdown {
+  display: flex;
+	flex-direction: column;
+  align-items: flex-start;
+	position: absolute;
+	top: 100%; left:0;
+	width: 200%;
+	max-width: 275px;	
+	margin:0; padding: 0;
+  background: #fff;
+	color: grey;
+	font-weight: normal;
+	font-size: 1rem;
+	list-style : none;
+  visibility: hidden;
+	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.45);
+	z-index: 1;
+}
+.action-list .action-list__dropdown li:last-child {	border-top: 1px solid lightgrey; }
+.action-list .action-list__dropdown li {
+	display: flex;
+	justify-content: space-between;
+	width: 92%; 
+	padding: 10px;
+}
+.action-list > ul > li:hover {
+	color: var(--color-font-links-hover);
+	visibility: visible;
+}
+.action-list > ul > li:hover > .action-list__dropdown {	visibility: visible; }
+.action-list > ul > li:hover:after { transform: translateY(-4px); }
+/* END OF ACTION-LIST */
+/* START OF IMG-WRAPPER */
+#img-wrapper {
+	flex: 0 0 1000px;
+	width: 1000px; height: 500px; 
+	border: 1px solid lightgrey;
+	
+  background-image: url('../../images/icons/map-placeholder.png');
+  background-position: center;
+  background-size:auto;
+  background-repeat: no-repeat;
+}
+/* END OF IMG-WRAPPER */
+/* START OF METADATA-WRAPPER */
+#metadata-wrapper {
+	display: flex;
+	flex: 1;
+	max-width: 915px;
+}
+	/* START OF ACCORDION
+	* 	=> CHILD OF METADATA-WRAPPER
+	*/
+.accordion {
+	display: flex;
+	flex: 0 0 100%;
+	flex-direction: column;
+	border-right: thin solid lightgrey;
+	border-left: thin solid lightgrey;
+	border-bottom: thin solid lightgrey;
+}
+.accordion-section {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 50px;
+}
+.accordion-section.active {	flex: 1; }
+.accordion-section .accordion-content h1,
+.accordion-section .accordion-content h2,
+.accordion-section .accordion-content h3,
+.accordion-section .accordion-content h4,
+.accordion-section .accordion-content h5 {
+	margin: 10px 0; padding: 0;
+	color: grey;
+	font-weight: bold;
+	font-size: 1rem;
+}
+.accordion-section .accordion-content {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	max-height: 100%;
+	padding: 10px;
+	font-size: 0.85rem;
+	overflow: scroll;
+}
+.accordion-section:not(.active) > .accordion-content{
+	padding: 0;
+	overflow: hidden;
+}
+.accordion-section .accordion-content hr {
+	margin: 15px 0 15px 0;
+	border-color: rgba(250,250,250,0.6);
+}
+.accordion-section .accordion-header {
+	display: flex;
+	flex: 0 0 50px;
+	justify-content: space-between;
+	align-items: center;
+	padding : 0 10px;
+	border-top: thin solid lightgrey;
+	border-bottom: thin solid lightgrey;
+	text-transform: uppercase;
+	overflow: hidden;
+}
+.accordion-section.active .accordion-header {
+	font-weight: bolder;
+	border-bottom: 2px solid var(--selectme-orange);
+}
+.action-list .action-list__dropdown li:hover,
+.accordion-section table tr:hover,
+.accordion-section .accordion-header:hover {
+	background-color: rgba(240,240,240,1);
+	cursor: pointer;
+}
+#metadata-wrapper__overlay__add-poi-actions button,
+.accordion-section button {
+	height: 35px;
+	padding: 0 15px;
+	outline: none;
+	border: none;
+	cursor: pointer;
+	text-transform: uppercase;
+	transition: all 0.25s ease-out;
+}
+#metadata-wrapper__overlay__add-poi-actions button:active,
+.accordion-section .btn-format-dark:active,
+.accordion-section .btn-format-neutral:active,
+.accordion-section .btn-format-danger:active,
+.accordion-section .btn-format-primary:active,
+.accordion-section .btn-format-success:active {
+	transform: scale(0.95);
+}
+.accordion-section .accordion-header span.desc {
+	flex: 1;
+	padding-left: 10px;
+	font-size: 0.75rem;
+	color: grey;
+}
+.accordion-section table td:first-child {
+	width: 35px;
+	text-align: center;
+}
+.accordion-section table td {
+	padding: 10px;
+	border-bottom: 1px solid lightgrey;
+	text-transform: uppercase;
+}
+	/* END OF ACCORDION
+	* 	=> CHILD OF METADATA-WRAPPER
+	*/
+/* END OF METADATA-WRAPPER */
+
+/* START OF ADD-POI-ACTIONS OVERLAY
+*		=> NOT A CHILD OF METADATA-WRAPPER,
+*			 BUT IS POSITIONED/BEHAVES AS SUCH
+*/
+#metadata-wrapper__overlay__add-poi-actions {
+	display: none;
+	position: absolute;
+	top: 125px; left: 900px;
+	padding: 5px 10px;
+	background: rgba(255,255,255,0.3);
+	box-shadow: 0px 2px 10px rgba(0,0,0,0.4);
+	cursor: move;
+	resize: both;
+}
+#metadata-wrapper__overlay__add-poi-actions button {
+	width: 25px; height: 25px;
+	margin: 5px; padding:0;
+}
+#metadata-wrapper__overlay__edit-poi-actions button {
+	margin: 5px auto;	padding:8px;
+	font-size: 1.15rem;
+	background: rgba(0,0,0,0.7);
+	color: white;
+	box-shadow: 0 0 5px rgba(0,0,0,0.8);
+	cursor: pointer;
+	opacity: 0;
+	animation: fadein 1s forwards ease-in;
+}
+#metadata-wrapper__overlay__edit-poi-actions button:nth-of-type(1) {animation-delay: 200ms; }
+/* END OF ADD-POI-ACTIONS OVERLAY */
+
+/* START OF EDIT-POI-ACTIONS OVERLAY
+*		=> NOT A CHILD OF METADATA-WRAPPER,
+*			 BUT IS POSITIONED/BEHAVES AS A CHILD OF
+*			 IMG-WRAPPER
+*/
+#metadata-wrapper__overlay__edit-poi-actions {
+	display: none;
+	flex-direction: column-reverse;
+	position: absolute;
+	padding: 5px;	
+}
+#metadata-wrapper__tbl__conn tr td:nth-child(2) {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+/* END OF EDIT-POI-ACTIONS OVERLAY */
+

@@ -44,8 +44,8 @@ export class DOMElements {
 
     //extending the HTMLElement here to allow for easier child appending
     //but more importantly, shorthand syntax
-    elem.appendDOMElement = function(tagName,attrs = {}) {
-      elem.appendChild(this.createDOMElement(tagName, attrs));
+    elem.appendDOMElement = function (tagName, attrs = {}) {
+        elem.appendChild(this.createDOMElement(tagName, attrs));
     }.bind(this);
 
     return elem;

@@ -1,0 +1,27 @@
+/*
+  AUTHOR David Freer
+  Direct Questions -> soulshined@me.com
+  Date: 7/17/2018
+  Notes:
+   The parent css styling for all css files on site.
+
+   This should be priority in your <head> tag as others depend on it
+
+   It is recommended to not remove variables as things change, 
+   but adding to is encouraged for streamlining and continuity across all sites
+ */ 
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,600');
+
+:root {
+  /* USAGE -> --selector-identifier-element-elementchild/name-psuedoclass */
+  --selectme-orange : #ffb200;
+  --selectme-grey: hsl(16, 5%, 38%);
+  --selectme-dark: #333;
+
+  --color-font-links-hover: var(--selectme-orange);
+
+  --color-bg-header: var(--selectme-dark);
+
+  --global-font-family : 'Quicksand';
+  --global-font-size : 1rem;
+}

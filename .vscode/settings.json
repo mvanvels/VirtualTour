@@ -1,0 +1,20 @@
+{
+  "terminals.autorun": true,
+  "terminals.terminals": [
+    {
+      "name": "MySQL",
+      "cwd": "C:\\Server\\bin\\mysql\\bin",
+      "execute": true,
+      "focus": true,
+      "commands": [
+        "mysql -u dev -p virtualtour"
+      ]
+    },
+    {
+      "name": "PowerShell",
+      "execute": true,
+      "cwd": "C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\",
+      "command": "powershell.exe"
+    }
+  ]
+}

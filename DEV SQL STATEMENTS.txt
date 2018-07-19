@@ -1,0 +1,177 @@
+//engine innoDB
+
+SHOW ALL FROM USER (Except POI_IMAGES / POI_VIDEOS / POI_CONNECTIONS):
+  SELECT U.USER_ID, M.MAP_ID, M.MAP_NAME, M.MAP_DESC, M.MAP_IMAGE, M.MAP_ISPUBLISHED, P.POI_ID, P.POI_NAME, P.POI_COORDS
+  FROM user As U
+  LEFT JOIN map As M ON U.user_id = M.USER_ID
+  LEFT JOIN poi As P ON M.MAP_ID = P.MAP_ID
+  WHERE U.USER_ID = '1' and M.USER_ID = '1';
+
+INSERT MAP
+INSERT INTO MAP (USER_ID, MAP_NAME, MAP_DESC) VALUES(1, "OVERVIEW", "EAGLE EYE VIEW OF OTTUMWA CAMPUS");
+
+INSERT POIS (uses most recent map, and references a specific IHCC map layout (test-images/ottumwa_campus_map.png)):
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "ARTS & SCIENCES WING", "109 194, 117 232, 189 217, 190 222, 217 219, 209 164, 128 180, 109 193, 109 194");
+
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "KEOKUK/MAHASKA RESIDENCE HALL", "222 187, 237 201, 287 158, 273 150, 225 186, 222 187");
+      
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "DINING ROOM/LIBRARY", "238 199, 222 217, 239 236, 265 215, 240 200, 238 199");
+      
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "APPANOOSE RESIDENCE HALL", "308 231, 292 249, 332 282, 345 266, 310 231, 308 231");
+      
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "ADMINISTRATIVE WING", "285 263, 273 278, 305 307, 322 298, 285 265, 285 263");
+      
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "WAPELLO RESIDENCE HALL", "320 293, 309 309, 354 344, 375 323, 376 315, 365 306, 351 319, 323 294, 320 293");
+      
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "TRUSTEE RESIDENCE HALL", "335 130, 335 151, 348 153, 351 165, 366 166, 364 151, 397 151, 396 132, 384 128, 380 114, 349 114, 340 128, 335 130");
+      
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "HELLYER STUDENT LIFE CENTER", "406 242, 414 259, 414 280, 425 285, 470 281, 480 268, 473 248, 474 227, 460 229, 457 216, 413 229, 407 240, 406 242");
+      
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "MARGE DODD OUTDOOR STAGE", "485 300, 467 322, 484 336, 509 313, 486 298, 485 300");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "CHILD DEVELOPMENT CENTER", "482 18, 479 25, 485 33, 464 56, 465 64, 483 75, 514 33, 490 17, 477 20, 482 18");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "CEMETERY", "534 18, 536 57, 566 58, 563 21, 535 21, 534 18");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "MAINTENANCE BUILDING", "601 39, 600 58, 629 60, 650 50, 653 19, 625 22, 623 36, 603 38, 601 39");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "BENNETT STUDENT SERVICES CENTER", "546 79, 512 110, 517 119, 529 130, 563 131, 577 114, 580 106, 546 83, 546 79");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "OAK RESIDENCE HALL", "664 114, 663 154, 634 161, 635 176, 679 183, 711 177, 725 125, 712 119, 695 159, 686 155, 680 158, 680 119, 665 113, 664 114");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "ADVANCED TECHNOLOGY CENTER", "614 203, 612 260, 628 270, 658 295, 672 278, 685 282, 710 285, 731 289, 749 268, 740 252, 718 238, 683 206, 665 197, 619 204, 614 203");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "TOM ARNOLD NET CENTER", "600 355, 575 377, 576 387, 623 426, 646 406, 647 393, 602 356, 600 355");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "R.L. HELLYER SOFTBALL FIELD", "663 390, 724 392, 729 444, 702 448, 675 440, 666 426, 663 415, 663 393, 663 390");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "ROSENMAN VIDEO CONFERENCE TRAINING CENTER", "853 217, 837 238, 838 251, 864 267, 872 275, 881 290, 895 292, 911 286, 915 267, 909 250, 899 239, 855 218, 853 217");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "RURAL HEALTH EDUCATION CENTER", "846 298, 827 305, 823 319, 829 332, 845 334, 860 327, 884 311, 873 289, 843 299, 846 298");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "SECURITY OFFICE", "722 359, 721 384, 747 383, 745 358, 724 358, 722 359");
+     
+      INSERT INTO POI (MAP_ID, POI_NAME, POI_COORDS) VALUES ((SELECT MAP_ID FROM MAP ORDER BY MAP_ID DESC LIMIT 1), "SOCCER FIELD", "744 398, 748 443, 843 439, 838 391, 746 397, 744 398");
+
+DESCRIBES:
+
+    - USER
+    +---------------+-------------+------+-----+---------+----------------+
+    | Field         | Type        | Null | Key | Default | Extra          |
+    +---------------+-------------+------+-----+---------+----------------+
+    | USER_ID       | int(11)     | NO   | PRI | NULL    | auto_increment |
+    | USER_USERNAME | varchar(50) | NO   | UNI | NULL    |                |
+    +---------------+-------------+------+-----+---------+----------------+
+
+    - MAP
+    +-----------------+--------------+------+-----+---------+----------------+
+    | Field           | Type         | Null | Key | Default | Extra          |
+    +-----------------+--------------+------+-----+---------+----------------+
+    | USER_ID         | int(11)      | NO   | MUL | NULL    |                |
+    | MAP_ID          | int(11)      | NO   | PRI | NULL    | auto_increment |
+    | MAP_NAME        | varchar(100) | NO   |     | NULL    |                |
+    | MAP_DESC        | varchar(255) | YES  |     | NULL    |                |
+    | MAP_IMAGE       | varchar(255) | YES  |     | NULL    |                |
+    | MAP_ISPUBLISHED | tinyint(1)   | NO   |     | 0       |                |
+    +-----------------+--------------+------+-----+---------+----------------+
+
+    - POI
+    +------------+-------------+------+-----+---------+----------------+
+    | Field      | Type        | Null | Key | Default | Extra          |
+    +------------+-------------+------+-----+---------+----------------+
+    | POI_ID     | int(11)     | NO   | PRI | NULL    | auto_increment |
+    | MAP_ID     | int(11)     | NO   | MUL | NULL    |                |
+    | POI_NAME   | varchar(50) | NO   |     | NULL    |                |
+    | POI_COORDS | text        | NO   |     | NULL    |                |
+    +------------+-------------+------+-----+---------+----------------+
+
+    - POI_IMAGE
+    +-----------+--------------+------+-----+---------+-------+
+    | Field     | Type         | Null | Key | Default | Extra |
+    +-----------+--------------+------+-----+---------+-------+
+    | POI_ID    | int(11)      | NO   | MUL | NULL    |       |
+    | POI_IMAGE | varchar(255) | NO   |     | NULL    |       |
+    +-----------+--------------+------+-----+---------+-------+
+
+    - POI_VIDEO
+    +-----------+--------------+------+-----+---------+-------+
+    | Field     | Type         | Null | Key | Default | Extra |
+    +-----------+--------------+------+-----+---------+-------+
+    | POI_ID    | int(11)      | NO   | PRI | NULL    |       |
+    | POI_VIDEO | varchar(255) | NO   |     | NULL    |       |
+    +-----------+--------------+------+-----+---------+-------+
+
+    - POI_CONNECTION
+    +---------------+---------+------+-----+---------+----------------+
+    | Field         | Type    | Null | Key | Default | Extra          |
+    +---------------+---------+------+-----+---------+----------------+
+    | POI_CONN_ID   | int(11) | NO   | PRI | NULL    | auto_increment |
+    | MAP_ID        | int(11) | NO   | MUL | NULL    |                |
+    | POI_CONN_FROM | int(11) | NO   | MUL | NULL    |                |
+    | POI_CONN_TO   | int(11) | NO   | MUL | NULL    |                |
+    +---------------+---------+------+-----+---------+----------------+
+
+    - POI_CONNECTION_VIDEO
+    +----------------+--------------+------+-----+---------+-------+
+    | Field          | Type         | Null | Key | Default | Extra |
+    +----------------+--------------+------+-----+---------+-------+
+    | MAP_ID         | int(11)      | NO   | MUL | NULL    |       |
+    | POI_CONN_ID    | int(11)      | NO   | MUL | NULL    |       |
+    | POI_CONN_FROM  | int(11)      | NO   |     | NULL    |       |
+    | POI_CONN_TO    | int(11)      | NO   |     | NULL    |       |
+    | POI_CONN_VIDEO | varchar(255) | NO   |     | NULL    |       |
+    +----------------+--------------+------+-----+---------+-------+
+
+CONSTRAINTS:
+  SELECT RC.CONSTRAINT_NAME,
+    RC.TABLE_NAME,
+    GROUP_CONCAT(K.COLUMN_NAME SEPARATOR ', ') AS `CONSTRAINT COLUMN`,
+    RC.DELETE_RULE, 
+    RC.REFERENCED_TABLE_NAME
+  FROM information_schema.REFERENTIAL_CONSTRAINTS RC
+    JOIN information_schema.KEY_COLUMN_USAGE K
+    USING (CONSTRAINT_CATALOG, CONSTRAINT_SCHEMA, CONSTRAINT_NAME)
+  GROUP BY RC.CONSTRAINT_CATALOG,
+           RC.CONSTRAINT_SCHEMA,
+           RC.CONSTRAINT_NAME;
+
+    +-----------------------------+----------------------+-------------------+-------------+-----------------------+
+    | CONSTRAINT_NAME             | TABLE_NAME           | CONSTRAINT COLUMN | DELETE_RULE | REFERENCED_TABLE_NAME |
+    +-----------------------------+----------------------+-------------------+-------------+-----------------------+
+    | map_ibfk_1                  | map                  | USER_ID           | CASCADE     | user                  |
+    | poi_connection_ibfk_1       | poi_connection       | POI_CONN_TO       | CASCADE     | poi                   |
+    | poi_connection_ibfk_2       | poi_connection       | POI_CONN_FROM     | CASCADE     | poi                   |
+    | poi_connection_video_ibfk_1 | poi_connection_video | POI_CONN_ID       | CASCADE     | poi_connection        |
+    | poi_ibfk_1                  | poi                  | MAP_ID            | CASCADE     | map                   |
+    | poi_image_ibfk_1            | poi_image            | POI_ID            | CASCADE     | poi                   |
+    | poi_video_ibfk_1            | poi_video            | POI_ID            | CASCADE     | poi                   |
+    +-----------------------------+----------------------+-------------------+-------------+-----------------------+
+
+INDEXES:
+  SELECT DISTINCT
+      TABLE_NAME,
+      INDEX_NAME,
+      COLUMN_NAME,
+      NON_UNIQUE,
+      CARDINALITY
+  FROM information_schema.STATISTICS
+  WHERE TABLE_SCHEMA = 'VIRTUALTOUR';
+
+    +----------------------+---------------+---------------+------------+-------------+
+    | TABLE_NAME           | INDEX_NAME    | COLUMN_NAME   | NON_UNIQUE | CARDINALITY |
+    +----------------------+---------------+---------------+------------+-------------+
+    | map                  | MAP_ID        | MAP_ID        |          0 |           0 |
+    | map                  | USER_ID       | USER_ID       |          1 |           0 |
+    | poi                  | PRIMARY       | POI_ID        |          0 |           0 |
+    | poi                  | MAP_ID        | MAP_ID        |          1 |           0 |
+    | poi_connection       | PRIMARY       | POI_CONN_ID   |          0 |           0 |
+    | poi_connection       | POI_CONN_TO   | POI_CONN_TO   |          1 |           0 |
+    | poi_connection       | POI_CONN_FROM | POI_CONN_FROM |          1 |           0 |
+    | poi_connection       | MAP_ID        | MAP_ID        |          1 |           0 |
+    | poi_connection_video | MAP_ID        | MAP_ID        |          1 |           0 |
+    | poi_connection_video | POI_CONN_ID   | POI_CONN_ID   |          1 |           0 |
+    | poi_image            | POI_ID_2      | POI_ID        |          1 |           0 |
+    | poi_video            | POI_ID_2      | POI_ID        |          0 |           0 |
+    | user                 | PRIMARY       | USER_ID       |          0 |           2 |
+    | user                 | USER_USERNAME | USER_USERNAME |          0 |           2 |
+    +----------------------+---------------+---------------+------------+-------------+

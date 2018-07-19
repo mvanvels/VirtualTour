@@ -1,0 +1,118 @@
+/*
+  AUTHOR David Freer
+  Direct Questions -> soulshined@me.com
+  Date: 4/15/2018
+  Notes:
+   INTENT IS TO NOT OVERRIDE CSS WITH !IMPORTANT STATEMENTS
+   INTENT IS TO COMPLIMENT.
+
+   LIMIT !IMPORTANT IMPLEMENTATION BELOW
+ */ 
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION MISC START-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+.bold { font-weight: bold; }
+.bold-all,
+.bold-all > * { font-weight: bold; }
+.collapse {
+  padding: 0;
+  margin: 0;
+}
+.collapse-all,
+.collapse-all > * {
+  padding: 0;
+  margin: 0;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION MISC END-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION TEXT HELPERS START-----
+**--- TAGS: @text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+.text-upper { text-transform: uppercase; }
+.text-upper-all,
+.text-upper-all > * { text-transform: uppercase; }
+.text-lower { text-transform: lowercase; }
+.text-lower-all,
+.text-lower-all > * { text-transform: lowercase; }
+.text-capitalize { text-transform: capitalize; }
+.text-capitalize-all,
+.text-capitalize-all > * { text-transform: capitalize; }
+.text-center { text-align: center; }
+.text-center-all,
+.text-center-all > * { text-align: center; }
+.text-left { text-align: left; }
+.text-left-all,
+.text-left-all > * { text-align: left; }
+.text-right { text-align: right; }
+.text-right-all,
+.text-right-all > * { text-align: right; }
+.txt-xs { font-size: 0.60rem; }
+.txt-sm { font-size: 0.80rem; }
+.txt-lg { font-size: 1.5rem; }
+.txt-xl { font-size: 2.5rem; }
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION TEXT HELPERS END-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION LIST STYLING START-----
+**--- TAGS: @list, @list-style
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+.list-style-none { list-style: none; }
+.list-inline > li { display: inline; }
+.list-inline-block > li { display: inline-block; }
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION LIST STYLING END-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION FLEX START-----
+**--- TAGS: @flex, @flex-direction, @flex-flow
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+.flex {
+  display: flex;
+  display: -webkit-flex;
+}
+.flex-inline {
+  display: inline-flex;
+  display: -webkit-inline-flex;
+}
+.flex-jc-sb { justify-content: space-between; }
+.flex-jc-sa { justify-content: space-around; }
+.flex-jc-se { justify-content: space-evenly; }
+.flex-jc-baseline { justify-content: baseline; }
+.flex-jc-center { justify-content: center; }
+.flex-jc-fs { justify-content: flex-start; }
+.flex-jc-fe { justify-content: flex-end; }
+.flex-jc-end { justify-content: end; }
+.flex-jc-start { justify-content: start; }
+.flex-jc-left { justify-content: left; }
+.flex-jc-right { justify-content: right; }
+.flex-jc-inherit { justify-content: inherit; }
+.flex-ai-fe { align-items: flex-end; }
+.flex-ai-fs { align-items: flex-start; }
+.flex-ai-inherit { align-items: inherit; }
+.flex-ai-center { align-items: center; }
+.flex-ai-baseline { align-items: baseline; }
+.flex-ai-stretch { align-items: stretch; }
+.flex-as-auto { align-self: auto; }
+.flex-as-fe { align-self: flex-end; }
+.flex-as-fs { align-self: flex-start; }
+.flex-as-inherit { align-self: inherit; }
+.flex-as-center { align-self: center; }
+.flex-as-baseline { align-self: baseline; }
+.flex-as-stretch { align-self: stretch; }
+.flex-dir-col { flex-direction: column; }
+.flex-dir-col-reverse { flex-direction: column-reverse; }
+.flex-dir-row { flex-direction: row; }
+.flex-dir-row-reverse { flex-direction: row-reverse; }
+.flex-flow-colrw { flex-flow: column-reverse wrap; }
+.flex-flow-colr { flex-flow: column-reverse nowrap; }
+.flex-flow-rowrw { flex-flow: row-reverse wrap; }
+.flex-flow-rowr { flex-flow: row-reverse nowrap; }
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION FLEX END -----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/

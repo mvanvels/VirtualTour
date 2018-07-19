@@ -1,0 +1,162 @@
+/*
+  AUTHOR David Freer
+  Direct Questions -> soulshined@me.com
+  Date: 4/15/2018
+  Notes:
+    This document only supports profile/index.html at this time
+    This stylesheet relies on a parent stylesheet (globals.css) for a few variables
+
+    This file is intended to provide a fundamental modal style for all pages across the site and only includes selectors to style those modals.
+
+    Some selectors target specific modals with unique id's
+
+    Elements are styled top-down (as in order of appearance of html markup) after global selectors/classes are styled
+ */
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION GLOBAL STYLES START-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+.poi-modal button {
+  padding: 6px 15px;
+  background-color: lightgrey;
+  border: none;
+  cursor: pointer;
+  transition: 500ms;
+  outline: none;
+}
+.poi-modal button:hover {
+  background-color: #222;
+  color: goldenrod;
+}
+.poi-modal::-webkit-scrollbar {
+  width: 0.35em;
+}
+.poi-modal::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+.poi-modal::-webkit-scrollbar-thumb {
+  background-color: var(--selectme-orange);
+  outline: 1px solid slategrey;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+**-------REGION GLOBAL STYLES START-----
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+.poi-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 0.92rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+.poi-show-modal {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1.0);
+  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+.poi-modal-content {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 24rem;
+  background-color: white;
+  border-radius: 0.25rem;
+  transform: translate(-50%, -50%);
+}
+.poi-modal-header {
+  border-bottom: 1px solid var(--selectme-orange);
+  padding: 15px;
+  text-align: center;
+}
+#modal__editConn__header {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  padding: 0 0 10px 10px;
+  border-bottom: 1px solid rgba(200, 200, 200,1);
+}
+.poi-modal-body {
+  max-height: 350px;
+  padding: 25px 10px 10px;
+  overflow:hidden;
+  overflow-y: auto;
+}
+#modal__editConn .poi-modal-body {
+  display: flex;
+  flex-direction: column;
+  margin:0; padding-top: 0;
+}
+.poi-modal-body h5,
+.poi-modal-body h4 {
+  margin-top: 0; margin-bottom:7px;
+}
+#modal__editConn .poi-modal-body h5 {
+  font-weight: 400;
+}
+.poi-modal-body .media-count {
+  color: grey;
+	font-weight: normal;
+	font-size: 0.8rem;
+}
+.poi-modal-body .poi-images {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.poi-modal-body .poi-images > div {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 70px;
+}
+.poi-modal-body input {
+	width: 250px;
+	padding-bottom: 5px;
+	font-size: 1.1rem;
+  border:none;
+	border-bottom: 1px solid grey;
+  outline: none;
+	transition: 300ms;
+}
+.poi-modal-body input:focus {
+  border-bottom-color: var(--selectme-orange);
+}
+.poi-modal-body img {
+  width: 70px; height: 70px;
+	outline: 1px dashed lightgrey;
+}
+.poi-modal-body img[data-poi-image-is-set="false"] {
+  cursor: pointer;
+}
+.poi-modal-body img:active {
+	box-shadow: inset 0px 0px 5px var(--selectme-orange);
+}
+.poi-modal-body select {
+  max-width: 70%;
+}
+.poi-modal-body iframe {
+  width: 100%;
+}
+.poi-modal-footer {
+  display: flex;
+  flex-flow: row-reverse wrap;
+  justify-content: flex-start;
+  width: 85%;
+  margin: 0 auto; padding: 8px 0px;
+  border-top: 1px solid lightgray;
+}
+.poi-close-button {
+  align-self: flex-end;
+  position: absolute;
+  right: 10px;
+  color: rgba(190,190,190);
+  font-weight:bolder;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+.poi-close-button:hover {
+  color: black;
+}
